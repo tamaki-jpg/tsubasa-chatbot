@@ -318,10 +318,13 @@
   btn.addEventListener("click", () => isOpen ? closeChat() : openChat());
   document.getElementById("tsubasa-close-btn").addEventListener("click", closeChat);
 
-  // ===== 10秒後に自動オープン =====
-  setTimeout(() => {
-    if (!isOpen) openChat();
-  }, 10000);
+  // ===== 10秒後に自動オープン（PCのみ） =====
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+  if (!isMobile) {
+    setTimeout(() => {
+      if (!isOpen) openChat();
+    }, 10000);
+  }
 
   sendBtn.addEventListener("click", sendMessage);
   inputEl.addEventListener("keydown", (e) => {
