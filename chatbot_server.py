@@ -3,7 +3,7 @@ import os
 import re
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import anthropic
 
@@ -207,6 +207,11 @@ def chat():
         print(f"Claude APIエラー: {e}")
         return jsonify({"error": "申し訳ありません。一時的なエラーが発生しました。しばらくしてから再度お試しください。"}), 500
 
+
+@app.route("/chatbot_widget.js")
+def widget():
+    return send_from_directory(os.path.dirname(__file__), "chatbot_widget.js",
+                               mimetype="application/javascript")
 
 @app.route("/health", methods=["GET"])
 def health():
