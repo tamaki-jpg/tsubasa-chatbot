@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>チャットボット動作確認</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 { color: #1a6fad; margin-bottom: 8px; }
+    p { color: #555; line-height: 1.7; }
+    .hint { background: #e8f4fd; border-radius: 8px; padding: 16px; margin-top: 24px; font-size: 14px; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🦅 つばさ社労士事務所</h1>
+    <p>チャットボット動作確認ページです。<br>右下のボタンをクリックしてチャットを開始してください。</p>
+    <div class="hint">
+      <strong>💡 質問の例</strong><br><br>
+      ・ストレスチェックとは何ですか？<br>
+      ・50人以下の会社でも実施できますか？<br>
+      ・サービスの料金はどのくらいですか？<br>
+      ・高ストレス者への対応はどうすればいいですか？<br>
+      ・就業規則の作成も依頼できますか？
+    </div>
+  </div>
+
+  <!-- チャットボット埋め込み（サーバーのURLを指定） -->
+  <script src="chatbot_widget.js" data-api="http://localhost:5000"></script>
+</body>
+</html>
