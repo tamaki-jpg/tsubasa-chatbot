@@ -319,11 +319,12 @@
   document.getElementById("tsubasa-close-btn").addEventListener("click", closeChat);
 
   // ===== 自動オープン（PCのみ） =====
-  // トップページ：10秒後、その他ページ：40秒後
+  // トップページ：15秒、ブログ記事・コラム：40秒、その他：15秒
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
   if (!isMobile) {
-    const isTopPage = location.pathname === "/" || location.pathname === "";
-    const delay = isTopPage ? 10000 : 40000;
+    const path = decodeURIComponent(location.pathname);
+    const isBlog = /\/\d{4}\/\d{2}\/\d{2}\//.test(path) || path.includes("コラム");
+    const delay = isBlog ? 40000 : 15000;
     setTimeout(() => {
       if (!isOpen) openChat();
     }, delay);
