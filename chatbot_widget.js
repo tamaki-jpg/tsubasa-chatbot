@@ -318,12 +318,15 @@
   btn.addEventListener("click", () => isOpen ? closeChat() : openChat());
   document.getElementById("tsubasa-close-btn").addEventListener("click", closeChat);
 
-  // ===== 10秒後に自動オープン（PCのみ） =====
+  // ===== 自動オープン（PCのみ） =====
+  // トップページ：10秒後、その他ページ：40秒後
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
   if (!isMobile) {
+    const isTopPage = location.pathname === "/" || location.pathname === "";
+    const delay = isTopPage ? 10000 : 40000;
     setTimeout(() => {
       if (!isOpen) openChat();
-    }, 10000);
+    }, delay);
   }
 
   sendBtn.addEventListener("click", sendMessage);
