@@ -9,7 +9,7 @@
 
   const PRIMARY_COLOR = "#1a6fad";   // つばさカラー（青系）
   const BOT_NAME = "つばさアシスタント";
-  const GREETING = "こんにちは！つばさ社会保険労務士事務所のAIアシスタントです。\nストレスチェック制度やサービスについてお気軽にご質問ください😊";
+  const GREETING = "こんにちは！つばさ社会保険労務士事務所のAIアシスタントです。\nお気軽にご質問ください😊";
 
   let chatHistory = [];
   let isOpen = false;
