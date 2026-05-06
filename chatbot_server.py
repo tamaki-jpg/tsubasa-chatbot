@@ -1,11 +1,34 @@
 import sys
 import os
 import re
+import datetime
+import threading
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import anthropic
+
+# Google Sheets ログ設定
+SPREADSHEET_ID = "1SgtVqj_RYRHyx9HpzdIOqiRyDFvMGXAvHLWRoHH6nFY"
+
+def log_to_sheet(user_message, reply):
+    """バックグラウンドでスプレッドシートに記録"""
+    try:
+        import gspread
+        from google.auth import default
+        scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+        creds, _ = default(scopes=scopes)
+        gc = gspread.authorize(creds)
+        sh = gc.open_by_key(SPREADSHEET_ID)
+        ws = sh.sheet1
+        # ヘッダーがなければ追加
+        if ws.row_count == 0 or ws.cell(1, 1).value != "日時":
+            ws.insert_row(["日時", "質問", "回答"], 1)
+        now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y/%m/%d %H:%M:%S")
+        ws.append_row([now, user_message, reply])
+    except Exception as e:
+        print(f"スプレッドシート記録エラー: {e}")
 
 # ローカルはconfig.pyから、Render.comは環境変数から読む
 try:
@@ -238,6 +261,8 @@ def chat():
             messages=messages,
         )
         reply = strip_markdown(response.content[0].text)
+        # バックグラウンドでスプレッドシートに記録
+        threading.Thread(target=log_to_sheet, args=(user_message, reply), daemon=True).start()
         return jsonify({"reply": reply})
 
     except Exception as e:
