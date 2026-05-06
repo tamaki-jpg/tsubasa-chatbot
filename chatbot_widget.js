@@ -324,7 +324,7 @@
   if (!isMobile) {
     const path = decodeURIComponent(location.pathname);
     const isBlog = /\/\d{4}\/\d{2}\/\d{2}\//.test(path) || path.includes("コラム");
-    const delay = isBlog ? 40000 : 15000;
+    const delay = isBlog ? 80000 : 20000;
     setTimeout(() => {
       if (!isOpen) openChat();
     }, delay);
