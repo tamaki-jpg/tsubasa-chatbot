@@ -11,6 +11,16 @@
   const BOT_NAME = "つばさアシスタント";
   const GREETING = "こんにちは！つばさ社会保険労務士事務所のAIアシスタントです。\nお気軽にご質問ください😊";
 
+  const QUICK_REPLIES = [
+    "労働トラブル相談",
+    "ストレスチェック導入",
+    "外部相談窓口（ここワーク）",
+    "AI活用・ツール開発",
+    "研修・セミナー",
+    "顧問・月額サポート",
+    "その他の質問",
+  ];
+
   let chatHistory = [];
   let isOpen = false;
 
@@ -194,6 +204,28 @@
     }
     #tsubasa-chat-send:hover { background: #155a8a; }
     #tsubasa-chat-send:disabled { background: #b0c4d8; cursor: not-allowed; }
+    .tsubasa-quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 4px 0 8px 36px;
+    }
+    .tsubasa-quick-btn {
+      background: #fff;
+      border: 1.5px solid ${PRIMARY_COLOR};
+      color: ${PRIMARY_COLOR};
+      border-radius: 16px;
+      padding: 5px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .tsubasa-quick-btn:hover {
+      background: ${PRIMARY_COLOR};
+      color: #fff;
+    }
   `;
   document.head.appendChild(style);
 
@@ -241,6 +273,29 @@
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
     return div;
+  }
+
+  function showQuickReplies() {
+    // 既存のボタンがあれば削除
+    const existing = document.getElementById("tsubasa-quick-replies");
+    if (existing) existing.remove();
+
+    const div = document.createElement("div");
+    div.className = "tsubasa-quick-replies";
+    div.id = "tsubasa-quick-replies";
+    QUICK_REPLIES.forEach(label => {
+      const btn = document.createElement("button");
+      btn.className = "tsubasa-quick-btn";
+      btn.textContent = label;
+      btn.addEventListener("click", () => {
+        div.remove(); // ボタンを非表示
+        inputEl.value = label;
+        sendMessage();
+      });
+      div.appendChild(btn);
+    });
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
   function showTyping() {
@@ -305,6 +360,7 @@
     btn.innerHTML = "✕";
     if (messagesEl.children.length === 0) {
       addMessage("bot", GREETING);
+      showQuickReplies();
     }
     setTimeout(() => inputEl.focus(), 200);
   }
